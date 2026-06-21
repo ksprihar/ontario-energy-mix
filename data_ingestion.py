@@ -18,7 +18,7 @@ def extract_generation_data(start_year, end_year):
             xml_string = response.content
             root = ET.fromstring(xml_string)
         else:
-            raise Exception(f'Error while fetching generation data for year {year}.')
+            raise Exception(f'Error while fetching Generation data for year {year}.')
 
         data_list = []
         for item in root.findall('.//ieso:MonthData', ns):
@@ -31,11 +31,16 @@ def extract_generation_data(start_year, end_year):
                 data_list.append(data_dict)
 
         df = pd.DataFrame(data_list)
-        df.insert(0, 'year', year)
-        df_list.append(df)
+
+        if not df.empty:
+            df['month'] = str(year) + '-' + df['month']
+            df_list.append(df)
+        else:
+            raise Exception(f"Warning: No data found in the Generation xml for year {year}. Please check the year range supplied to the '{extract_generation_data.__name__}' function.")
 
     fuel_df = pd.concat(df_list, ignore_index=True)
-    fuel_df.to_csv('data/generation_data.csv', index=False)
+    fuel_df['month'] = pd.to_datetime(fuel_df['month'], format='%Y-%B')
+    fuel_df.to_csv('csv_data/generation_data.csv', index=False)
     print('Generation data saved to data/generation_data.csv')
 
 def extract_demand_data(start_year, end_year):
@@ -46,24 +51,27 @@ def extract_demand_data(start_year, end_year):
 
     for year in year_range:
         url = demand_url.format(year)
-        response = requests.get(url)
-        if response.status_code == 200:
-            df = pd.read_csv(StringIO(response.text), skiprows=3)
+
+        try:
+            df = pd.read_csv(url, skiprows=3)
+        except Exception as e:
+            raise Exception(f'Error while fetching Demand data for year {year}.\nDetails: {e}')
+
+        if not df.empty:
+            df['Date'] = pd.to_datetime(df['Date'])
+            df.rename(columns={'Date': 'month'}, inplace=True)
+            df = df.resample('MS', on='month').agg(
+                total_demand=('Ontario Demand', 'sum'),
+                avg_demand=('Ontario Demand', 'mean'),
+                peak_demand=('Ontario Demand', 'max'),
+            ).reset_index()
+
+            df_list.append(df)
         else:
-            raise Exception(f'Error while fetching demand data for year {year}.')
+            raise Exception(f"Warning: No data found in the Demand csv for year {year}. Please check the year range supplied to the '{extract_demand_data.__name__}' function.")
 
-        df['Date'] = pd.to_datetime(df['Date'])
-        df.rename(columns={'Date': 'month'}, inplace=True)
-        df = df.resample('MS', on='month').agg(
-            total_demand=('Ontario Demand', 'sum'),
-            avg_demand=('Ontario Demand', 'mean'),
-            peak_demand=('Ontario Demand', 'max'),
-        )
-
-        df_list.append(df)
-
-    demand_df = pd.concat(df_list)
-    demand_df.to_csv('data/demand_data.csv')
+    demand_df = pd.concat(df_list, ignore_index=True)
+    demand_df.to_csv('csv_data/demand_data.csv', index=False)
     print('Demand data saved to data/demand_data.csv')
 
 if __name__ == '__main__':
