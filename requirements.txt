@@ -6,3 +6,5 @@ matplotlib
 nbformat
 requests
 lxml
+sqlalchemy
+pyodbc

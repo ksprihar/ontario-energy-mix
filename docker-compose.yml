@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Container 1: The SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: portfolio_sql_server
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Ontario_Energy_Mix@15_26"  # Local dev only — change this if you like
+    ports:
+      - "1433:1433"
+    volumes:
+      # This mounts the local 'csv_data' folder
+      # directly into the container so BULK INSERT can find the files universally
+      - ./csv_data:/csv_data
+
+  # Container 2: The Setup Utility that builds the tables and views
+  db_setup:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: portfolio_db_setup
+    depends_on:
+      - sqlserver
+    volumes:
+      # Mounts both the initialization script and the views script
+      - ./sql_scripts/init.sql:/init.sql
+      - ./sql_scripts/views.sql:/views.sql
+    # This command waits 15 seconds for SQL Server to boot up,
+    # then automatically executes init.sql and views.sql scripts
+    command: >
+      bash -c "
+        echo 'Waiting for SQL Server to warm up...';
+        sleep 15;
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P 'Ontario_Energy_Mix@15_26' -i /init.sql;
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P 'Ontario_Energy_Mix@15_26' -d ontario_energy -i /views.sql;
+        echo 'Database setup successfully completed!';
+      "
