@@ -19,6 +19,10 @@ This project demonstrates an end-to-end analytical workflow: automated data inge
 
 ![Ontario Electricity Generation Mix Shift](img/stacked_area.png)
 
+▶ [View interactive version](https://ksprihar.github.io/OntarioEnergyMix/charts/stacked_area.html)
+
+There are 8 plotly charts in this analysis, and they all have interactive versions — see the [full interactive chart index](https://ksprihar.github.io/OntarioEnergyMix/) or the links under each chart in [`main.ipynb`](main.ipynb).
+
 ---
 
 ## Tech Stack
@@ -46,6 +50,9 @@ This project demonstrates an end-to-end analytical workflow: automated data inge
 ├── img/
 │   ├── divergence.png          # 2020-2022 crop from Total Generation and Gas Generation chart (referenced in notebook)
 │   └── stacked_area.png        # Annual fuel mix stacked area chart
+├── docs/                       # GitHub Pages site — interactive (live) versions of every chart
+│   ├── index.html              # Chart index, served at https://ksprihar.github.io/OntarioEnergyMix/
+│   └── charts/                 # One standalone interactive Plotly HTML file per chart, written by main.ipynb
 └── sql_scripts/
     ├── init.sql                # Creates DB, tables, and loads CSV data
     ├── views.sql               # Creates demand views for the two analysis scopes

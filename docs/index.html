@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ontario's Energy Mix — Interactive Charts</title>
+<style>
+  :root {
+    --gas: #D92525;
+    --ink: #2E2252;
+    --muted: #555555;
+    --bg: #F7F6FA;
+    --card: #FFFFFF;
+    --border: #E3E0EC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: #222;
+  }
+  header {
+    padding: 48px 24px 24px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.7rem;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  header p {
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 640px;
+  }
+  header a {
+    color: var(--gas);
+    text-decoration: none;
+  }
+  header a:hover { text-decoration: underline; }
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  a.card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: #222;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  a.card:hover {
+    border-color: var(--gas);
+    transform: translateY(-1px);
+  }
+  a.card .title {
+    font-weight: 600;
+    font-size: 0.98rem;
+    margin-bottom: 4px;
+  }
+  a.card .arrow {
+    color: var(--gas);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Ontario's Energy Mix — Interactive Charts</h1>
+  <p>
+    Live, interactive versions of the Plotly charts from the
+    <a href="https://github.com/ksprihar/OntarioEnergyMix">OntarioEnergyMix</a> analysis notebook.
+    Hover, zoom, and toggle legend items directly in the browser.
+  </p>
+</header>
+<main>
+  <a class="card" href="charts/demand_over_time.html">
+    <div class="title">Ontario Electricity Demand over Time</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/demand_rolling_avg.html">
+    <div class="title">Demand 12-month Rolling Average</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/demand_generation_rolling_avg.html">
+    <div class="title">Demand vs. Generation 12-month Rolling Average</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/fuel_rolling_avg.html">
+    <div class="title">Generation by Fuel — 12-month Rolling Average</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/stacked_area.html">
+    <div class="title">Generation Mix Shift (Stacked Area)</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/gas_contribution_50th_percentile.html">
+    <div class="title">Gas Contribution: Top Half vs. Bottom Half Peak Demand Months</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/gas_contribution_top10.html">
+    <div class="title">Gas Contribution: Top 10 Peak Demand Months vs. Others</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+  <a class="card" href="charts/gas_contribution_top5.html">
+    <div class="title">Gas Contribution: Top 5 Peak Demand Months vs. Others</div>
+    <div class="arrow">▶ Open chart</div>
+  </a>
+</main>
+</body>
+</html>
