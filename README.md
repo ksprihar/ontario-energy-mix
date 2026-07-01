@@ -71,7 +71,7 @@ This project demonstrates an end-to-end analytical workflow: automated data inge
 
 You do not need to install any dependencies or run any code to read this project. Simply open the [`main.ipynb`](main.ipynb) Jupyter notebook to view the complete narrative analysis and all visualizations directly in your browser on GitHub.
 
-There are 8 plotly charts in this analysis. They have been rendered as a png image in the notebook because Github does not render the plotly javascript charts. But they all have interactive versions — see the [full interactive chart index](https://ksprihar.github.io/ontario-energy-mix/) or the links under each chart in `main.ipynb`.
+This analysis contains 8 Plotly charts. Because GitHub doesn't render Plotly's interactive JavaScript, each one is displayed as a static PNG in the notebook — but fully interactive versions are available via the [interactive chart index](https://ksprihar.github.io/ontario-energy-mix/) or the links under each chart in `main.ipynb`.
 
 ---
 
@@ -109,7 +109,7 @@ python data_ingestion.py
 
 #### Step 4 — Start the database
 
-This spins up a SQL Server container and automatically creates the database, tables, and views. Note that `Docker Desktop` should be running in the backgroud.
+This spins up a SQL Server container and automatically creates the database, tables, and views. Note that `Docker Desktop` should be running in the background.
 
 ```bash
 docker compose up
